@@ -64,7 +64,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
 
 /** The published content file that ships with the build. */
 export const PUBLISHED: ContentFile = {
-  version: contentJson.version ?? 1,
+  version: contentJson.version ?? 2,
   settings: { ...DEFAULT_SETTINGS, ...(contentJson.settings as Partial<SiteSettings>) },
   patches: (contentJson.patches ?? {}) as Record<string, ResourcePatch>,
   hidden: (contentJson.hidden ?? []) as string[],
