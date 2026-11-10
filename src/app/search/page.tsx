@@ -92,8 +92,7 @@ function SearchInner() {
 
         {results.length === 0 ? (
           <p className="no-posts-message">
-            Nothing matched that search. Try &ldquo;plugin&rdquo;, &ldquo;lifesteal&rdquo;,
-            &ldquo;anticheat&rdquo; or &ldquo;spawn&rdquo;.
+            The resource library is currently empty. New resources will appear here as soon as they are published.
           </p>
         ) : (
           <div className="blog-posts">
