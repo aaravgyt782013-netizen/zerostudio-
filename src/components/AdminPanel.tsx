@@ -335,7 +335,7 @@ export function AdminPanel() {
                         className="gsh-filter"
                         onClick={() => {
                           if (r.isCustom) {
-                            const source = content.custom.find((c) => c.slug === r.slug);
+                            const source = content.custom.find((item) => item.slug === r.slug);
                             if (source) setDraft({ ...source, summary: source.summary ?? "" });
                             setSlugTouched(true);
                             setTab("new");
@@ -346,23 +346,6 @@ export function AdminPanel() {
                       >
                         Edit
                       </button>
-                      <a
-                        className="gsh-filter"
-                        href={resourceHref(r.slug)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View
-                      </a>
-                      <button
-                        type="button"
-                        className="gsh-filter"
-                        onClick={() => {
-                          setConfirmation({ title: "Hide this resource?", message: `"${r.title}" will disappear from the public website. You can restore it anytime from the Hidden filter.`, confirmLabel: "Hide resource", onConfirm: () => toggleHidden(r.slug) });
-                        }}
-                      >
-                        Hide
-                      </button>
                       <button
                         type="button"
                         className="gsh-filter danger"
@@ -371,6 +354,15 @@ export function AdminPanel() {
                         }}
                       >
                         Delete
+                      </button>
+                      <button
+                        type="button"
+                        className="gsh-filter"
+                        onClick={() => {
+                          setConfirmation({ title: "Hide this resource?", message: `"${r.title}" will disappear from the public website. You can restore it anytime from the Hidden filter.`, confirmLabel: "Hide resource", onConfirm: () => toggleHidden(r.slug) });
+                        }}
+                      >
+                        Hide
                       </button>
                     </td>
                   </tr>
