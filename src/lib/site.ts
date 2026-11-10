@@ -2,8 +2,8 @@ export const SITE = {
   name: "Zero Studio",
   short: "Zero Studio",
   tagline: "Your creative hub for Minecraft plugins, server setups, maps, models, panels, web code, scripts and more.",
-  discord: "https://discord.gg/BYU8bkY6sz",
-  youtube: "https://youtube.com/@light_gamerz?si=KS3S7BF7731DLGSh",
+  discord: "https://discord.gg/NqTfMw3pSR",
+  youtube: "https://youtube.com/@rune_playz?si=9YZG406KY7zw8d48",
   instagram: "https://www.instagram.com/aaravg782013.exe?vrfl=d3U4MDl4amp3Ynoz",
 };
 
