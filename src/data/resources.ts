@@ -406,7 +406,8 @@ const BASE_RESOURCES: Resource[] = rawSlugs
 
 function withContent(content: ContentFile): Resource[] {
   const hidden = new Set(content.hidden);
-  const patched = BASE_RESOURCES.filter((r) => !hidden.has(r.slug)).map((r) => {
+  const deleted = new Set(content.deleted ?? []);
+  const patched = BASE_RESOURCES.filter((r) => !hidden.has(r.slug) && !deleted.has(r.slug)).map((r) => {
     const patch = content.patches[r.slug];
     if (!patch) return r;
     return {
