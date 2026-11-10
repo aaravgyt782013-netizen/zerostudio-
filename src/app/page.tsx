@@ -18,11 +18,20 @@ export default async function HomePage() {
         <Hero content={content} />
 
         <SectionHead title="Latest drops" id="latest-drops" />
-        <div className="blog-posts">
-          {latest.map((resource) => (
-            <ResourceCard key={resource.slug} resource={resource} />
-          ))}
-        </div>
+        {latest.length > 0 ? (
+          <div className="blog-posts">
+            {latest.map((resource) => (
+              <ResourceCard key={resource.slug} resource={resource} />
+            ))}
+          </div>
+        ) : (
+          <section className="no-posts-message zero-empty-state">
+            <span className="zero-empty-kicker">A FRESH START</span>
+            <h2>Our resource library is getting ready.</h2>
+            <p>Zero Studio is starting with a clean catalogue. New plugins, setups, maps, models and configs will appear here as they are added.</p>
+            <Link className="gsh-btn" href="/admin">Open Admin Panel</Link>
+          </section>
+        )}
 
         <nav className="gsh-pager" aria-label="Pagination">
           <span>Page 1</span>
