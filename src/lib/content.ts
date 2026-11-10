@@ -68,7 +68,7 @@ export const PUBLISHED: ContentFile = {
   settings: { ...DEFAULT_SETTINGS, ...(contentJson.settings as Partial<SiteSettings>) },
   patches: (contentJson.patches ?? {}) as Record<string, ResourcePatch>,
   hidden: (contentJson.hidden ?? []) as string[],
-  deleted: (contentJson.deleted ?? []) as string[],
+  deleted: ((contentJson as unknown as { deleted?: string[] }).deleted ?? []) as string[],
   custom: (contentJson.custom ?? []) as CustomResource[],
 };
 
