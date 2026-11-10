@@ -304,6 +304,17 @@ export function AdminPanel() {
                 </tr>
               </thead>
               <tbody>
+                {visible.length === 0 ? (
+                  <tr>
+                    <td colSpan={4}>
+                      <div className="zero-admin-empty">
+                        <strong>Your resource library is empty.</strong>
+                        <span>Add your first plugin, setup, map, model or configuration to get started.</span>
+                        <button type="button" className="gsh-btn" onClick={() => setTab("new")}>Add your first resource</button>
+                      </div>
+                    </td>
+                  </tr>
+                ) : null}
                 {visible.slice(0, 100).map((r) => (
                   <tr key={r.slug}>
                     <td>
