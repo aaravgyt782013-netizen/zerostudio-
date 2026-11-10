@@ -1090,3 +1090,33 @@ html.light-mode #footer .gsh-footer-col h4{color:#93c5fd}
 @media (prefers-color-scheme:light){
   html:not(.light-mode){color-scheme:dark}
 }
+
+
+/* Zero Studio native confirmation UI */
+.zero-confirm-overlay{
+  position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
+  padding:1.25rem;background:rgba(7,8,14,.76);backdrop-filter:blur(12px);
+  animation:zero-confirm-fade .18s ease-out;
+}
+.zero-confirm-card{
+  width:min(100%,440px);max-height:min(90dvh,620px);overflow:auto;
+  padding:clamp(1.35rem,4vw,2rem);border:1px solid color-mix(in srgb,var(--accent) 34%,var(--line));
+  border-radius:24px;background:var(--surface);color:var(--text);
+  box-shadow:0 28px 90px rgba(0,0,0,.38);animation:zero-confirm-rise .22s ease-out;
+}
+.zero-confirm-mark{
+  display:grid;place-items:center;width:48px;height:48px;margin-bottom:1rem;
+  border-radius:16px;background:color-mix(in srgb,var(--accent) 15%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
+  color:var(--accent-hi);font-size:1.45rem;font-weight:1000;font-style:italic;
+}
+.zero-confirm-eyebrow{margin:0 0 .55rem;color:var(--accent-hi);font-size:.65rem;font-weight:900;letter-spacing:.17em}
+.zero-confirm-card .admin-h2{margin:.1rem 0 .55rem;font-size:1.45rem;letter-spacing:-.035em}
+.zero-confirm-card .admin-muted{font-size:.9rem;line-height:1.7}
+.zero-confirm-actions{display:flex;justify-content:flex-end;gap:.65rem;flex-wrap:wrap;margin-top:1.5rem}
+.zero-confirm-actions button{min-height:42px;border-radius:12px;padding:.7rem 1rem}
+.zero-confirm-actions .zero-confirm-danger{background:var(--accent);border:1px solid var(--accent);color:#fff}
+.zero-confirm-actions .zero-confirm-danger:hover{filter:brightness(1.1);transform:translateY(-1px)}
+@keyframes zero-confirm-fade{from{opacity:0}to{opacity:1}}
+@keyframes zero-confirm-rise{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.zero-confirm-overlay,.zero-confirm-card{animation:none}}
