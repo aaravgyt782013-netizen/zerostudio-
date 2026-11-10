@@ -41,6 +41,7 @@ export type ContentFile = {
   settings: SiteSettings;
   patches: Record<string, ResourcePatch>;
   hidden: string[];
+  deleted: string[];
   custom: CustomResource[];
 };
 
@@ -67,6 +68,7 @@ export const PUBLISHED: ContentFile = {
   settings: { ...DEFAULT_SETTINGS, ...(contentJson.settings as Partial<SiteSettings>) },
   patches: (contentJson.patches ?? {}) as Record<string, ResourcePatch>,
   hidden: (contentJson.hidden ?? []) as string[],
+  deleted: (contentJson.deleted ?? []) as string[],
   custom: (contentJson.custom ?? []) as CustomResource[],
 };
 
@@ -130,6 +132,7 @@ export function normaliseContent(raw: unknown): ContentFile {
     settings,
     patches,
     hidden: Array.isArray(input.hidden) ? input.hidden.filter((s) => typeof s === "string") : [],
+    deleted: Array.isArray(input.deleted) ? input.deleted.filter((s) => typeof s === "string") : [],
     custom,
   };
 }
