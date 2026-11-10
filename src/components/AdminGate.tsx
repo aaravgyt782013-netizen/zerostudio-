@@ -10,7 +10,7 @@ export function AdminGate({ children }: { children: React.ReactNode }) {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/me", { cache: "no-store" })
+    fetch("/api/admin/me", { cache: "no-store", credentials: "same-origin" })
       .then((r) => r.json())
       .then((data) => setState(data?.authenticated ? "in" : "out"))
       .catch(() => setState("out"));
@@ -27,7 +27,10 @@ export function AdminGate({ children }: { children: React.ReactNode }) {
         body: JSON.stringify({ user, password }),
       });
       if (res.ok) {
-        setState("in");
+        const session = await fetch("/api/admin/me", { cache: "no-store", credentials: "same-origin" });
+        const sessionData = await session.json().catch(() => ({}));
+        if (session.ok && sessionData?.authenticated) setState("in");
+        else setError("Login accepted, but the session cookie was not saved. Check the deployed domain and HTTPS.");
       } else {
         const data = await res.json().catch(() => ({}));
         setError(data?.error ?? "Login failed");
@@ -61,7 +64,7 @@ export function AdminGate({ children }: { children: React.ReactNode }) {
         <div className="main-container admin-login-wrap">
           <form className="post-wrapper admin-login" onSubmit={submit}>
             <h1 className="post-title">Admin Login</h1>
-            <p className="admin-muted">Galaxy Setup Pro control panel</p>
+            <p className="admin-muted">Zero Studio control panel</p>
 
             <label className="admin-field">
               <span>Username</span>
@@ -92,8 +95,7 @@ export function AdminGate({ children }: { children: React.ReactNode }) {
             </button>
 
             <p className="admin-hint">
-              Demo credentials: <b>admin</b> / <b>galaxy123</b> — production mein{" "}
-              <code>ADMIN_USER</code> aur <code>ADMIN_PASSWORD</code> env vars set karein.
+              Set <code>ADMIN_USER</code> (or <code>ADMIN_USERNAME</code> / <code>ADMIN_EMAIL</code>) and <code>ADMIN_PASSWORD</code> in Vercel Environment Variables, then redeploy. Credentials are never shown here.
             </p>
           </form>
         </div>
