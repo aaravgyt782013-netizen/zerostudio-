@@ -66,7 +66,7 @@ export default async function CategoryPage({
 
         {items.length === 0 ? (
           <p className="no-posts-message">
-            No resources in this category yet. Check back soon — new drops land every week.
+            This category is starting fresh. New resources will appear here when they are published.
           </p>
         ) : (
           <div className="blog-posts">
