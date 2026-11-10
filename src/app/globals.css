@@ -1120,3 +1120,13 @@ html.light-mode #footer .gsh-footer-col h4{color:#93c5fd}
 @keyframes zero-confirm-fade{from{opacity:0}to{opacity:1}}
 @keyframes zero-confirm-rise{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(prefers-reduced-motion:reduce){.zero-confirm-overlay,.zero-confirm-card{animation:none}}
+
+/* Zero Studio clean-slate empty states */
+.zero-empty-state,.zero-admin-empty{display:grid;justify-items:center;gap:.8rem;text-align:center;padding:clamp(1.5rem,5vw,3.5rem);border:1px dashed var(--line);border-radius:22px;background:var(--surface)}
+.zero-empty-kicker{font-size:.68rem;font-weight:950;letter-spacing:.2em;color:var(--accent-hi)}
+.zero-empty-state h2{font-size:clamp(1.35rem,3vw,2rem);letter-spacing:-.04em;margin:0}
+.zero-empty-state p{max-width:620px;margin:0 auto  .5rem;color:var(--muted);line-height:1.75}
+.zero-admin-empty{padding:2rem 1rem}
+.zero-admin-empty strong{font-size:1rem;color:var(--text)}
+.zero-admin-empty span{max-width:440px;color:var(--muted);font-size:.85rem;line-height:1.6}
+.zero-admin-empty .gsh-btn{margin-top:.35rem}
