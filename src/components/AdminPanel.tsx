@@ -41,6 +41,7 @@ export function AdminPanel() {
   const [draft, setDraft] = useState<CustomResource>(emptyDraft);
   const [slugTouched, setSlugTouched] = useState(false);
   const [toast, setToast] = useState("");
+  const [confirmation, setConfirmation] = useState<{ title: string; message: string; confirmLabel: string; onConfirm: () => void } | null>(null);
   const [hexDraft, setHexDraft] = useState<Record<string, string>>({});
 
   const resources = useMemo(() => applyContent(content), [content]);
@@ -152,9 +153,7 @@ export function AdminPanel() {
   };
 
   const resetAll = () => {
-    if (!window.confirm("Saari admin changes undo karni hain?")) return;
-    setContent(PUBLISHED);
-    flash("Reset to published content");
+    setConfirmation({ title: "Reset all changes?", message: "This will replace your current admin edits with the original published content. This cannot be undone.", confirmLabel: "Reset everything", onConfirm: () => { setContent(PUBLISHED); flash("Reset to published content"); } });
   };
 
   const exportJson = () => {
@@ -359,7 +358,7 @@ export function AdminPanel() {
                         type="button"
                         className="gsh-filter"
                         onClick={() => {
-                          if (window.confirm(`Hide "${r.title}" from the public website? You can restore it later.`)) toggleHidden(r.slug);
+                          setConfirmation({ title: "Hide this resource?", message: `"${r.title}" will disappear from the public website. You can restore it anytime from the Hidden filter.`, confirmLabel: "Hide resource", onConfirm: () => toggleHidden(r.slug) });
                         }}
                       >
                         Hide
@@ -368,7 +367,7 @@ export function AdminPanel() {
                         type="button"
                         className="gsh-filter danger"
                         onClick={() => {
-                          if (window.confirm(`Permanently delete "${r.title}" from the website? You can restore it from the Deleted filter.`)) deleteResource(r.slug);
+                          setConfirmation({ title: "Delete this resource?", message: `"${r.title}" will be removed from the public website and placed in Deleted. You can restore it from that filter.`, confirmLabel: "Delete resource", onConfirm: () => deleteResource(r.slug) });
                         }}
                       >
                         Delete
@@ -571,6 +570,20 @@ export function AdminPanel() {
         </div>
       ) : null}
 
+      {confirmation ? (
+        <div className="admin-modal zero-confirm-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setConfirmation(null); }}>
+          <section className="admin-modal-card zero-confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="zero-confirm-title" aria-describedby="zero-confirm-message">
+            <span className="zero-confirm-mark" aria-hidden="true">Z</span>
+            <p className="zero-confirm-eyebrow">ZERO STUDIO · CONFIRMATION</p>
+            <h2 className="admin-h2" id="zero-confirm-title">{confirmation.title}</h2>
+            <p className="admin-muted" id="zero-confirm-message">{confirmation.message}</p>
+            <div className="zero-confirm-actions">
+              <button type="button" className="gsh-filter" onClick={() => setConfirmation(null)}>Cancel</button>
+              <button type="button" className="gsh-btn zero-confirm-danger" onClick={() => { const action = confirmation.onConfirm; setConfirmation(null); action(); }}>{confirmation.confirmLabel}</button>
+            </div>
+          </section>
+        </div>
+      ) : null}
       {editing ? (
         <div className="admin-modal" role="dialog" aria-modal="true">
           <div className="admin-modal-card">
