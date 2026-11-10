@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { SESSION_COOKIE, checkCredentials, createSession } from "@/lib/adminAuth";
+import { ADMIN_CREDENTIALS_CONFIGURED, SESSION_COOKIE, checkCredentials, createSession } from "@/lib/adminAuth";
 
 export async function POST(request: Request) {
   let user = "";
@@ -13,6 +13,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
+  if (!ADMIN_CREDENTIALS_CONFIGURED) {
+    return NextResponse.json({ error: "Admin login is not configured. Set ADMIN_USER (or ADMIN_USERNAME / ADMIN_EMAIL) and ADMIN_PASSWORD in Vercel, then redeploy." }, { status: 503 });
+  }
+
   if (!checkCredentials(user, password)) {
     return NextResponse.json({ error: "Galat username ya password." }, { status: 401 });
   }
@@ -21,7 +25,7 @@ export async function POST(request: Request) {
   response.cookies.set(SESSION_COOKIE, createSession(), {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.VERCEL === "1" || process.env.NODE_ENV === "production",
+    secure: new URL(request.url).protocol === "https:",
     path: "/",
     maxAge: 60 * 60 * 12,
   });
@@ -30,6 +34,6 @@ export async function POST(request: Request) {
 
 export async function DELETE() {
   const response = NextResponse.json({ ok: true });
-  response.cookies.set(SESSION_COOKIE, "", { path: "/", maxAge: 0 });
+  response.cookies.set(SESSION_COOKIE, "", { path: "/", maxAge: 0, httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production" });
   return response;
 }
