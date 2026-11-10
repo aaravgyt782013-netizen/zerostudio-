@@ -36,7 +36,7 @@ export function AdminPanel() {
   const [content, setContent, loaded, saveState] = useAdminContent();
   const [tab, setTab] = useState<Tab>("resources");
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<"all" | CategoryId | "hidden" | "custom">("all");
+  const [filter, setFilter] = useState<"all" | CategoryId | "hidden" | "deleted" | "custom">("all");
   const [editing, setEditing] = useState<Resource | null>(null);
   const [draft, setDraft] = useState<CustomResource>(emptyDraft);
   const [slugTouched, setSlugTouched] = useState(false);
@@ -49,7 +49,7 @@ export function AdminPanel() {
     const q = query.trim().toLowerCase();
     return resources.filter((r) => {
       if (filter === "custom" && !r.isCustom) return false;
-      if (filter === "hidden") return false;
+      if (filter === "hidden" || filter === "deleted") return false;
       if (filter !== "all" && filter !== "custom" && (r.category as string) !== filter) return false;
       if (!q) return true;
       return r.title.toLowerCase().includes(q) || r.slug.toLowerCase().includes(q);
@@ -58,6 +58,11 @@ export function AdminPanel() {
 
   const hiddenList = useMemo(
     () => applyContent({ ...content, hidden: [] }).filter((r) => content.hidden.includes(r.slug)),
+    [content],
+  );
+
+  const deletedList = useMemo(
+    () => applyContent({ ...content, hidden: [], deleted: [] }).filter((r) => (content.deleted ?? []).includes(r.slug)),
     [content],
   );
 
@@ -124,7 +129,26 @@ export function AdminPanel() {
 
   const removeCustom = (slug: string) => {
     setContent({ ...content, custom: content.custom.filter((c) => c.slug !== slug) });
-    flash("Deleted");
+    flash("Permanently deleted");
+  };
+
+  const deleteResource = (slug: string) => {
+    if (content.custom.some((item) => item.slug === slug)) {
+      removeCustom(slug);
+      return;
+    }
+    setContent({
+      ...content,
+      hidden: content.hidden.filter((item) => item !== slug),
+      deleted: [...new Set([...(content.deleted ?? []), slug])],
+      patches: Object.fromEntries(Object.entries(content.patches).filter(([key]) => key !== slug)),
+    });
+    flash("Resource permanently removed from the website");
+  };
+
+  const restoreDeleted = (slug: string) => {
+    setContent({ ...content, deleted: (content.deleted ?? []).filter((item) => item !== slug) });
+    flash("Resource restored");
   };
 
   const resetAll = () => {
@@ -235,10 +259,11 @@ export function AdminPanel() {
               ))}
               <option value="custom">Added by me</option>
               <option value="hidden">Hidden</option>
+              <option value="deleted">Deleted</option>
             </select>
           </div>
 
-          {filter === "hidden" ? (
+          {filter === "hidden" || filter === "deleted" ? (
             <table className="admin-table">
               <thead>
                 <tr>
@@ -248,19 +273,19 @@ export function AdminPanel() {
                 </tr>
               </thead>
               <tbody>
-                {hiddenList.length === 0 ? (
+                {(filter === "hidden" ? hiddenList : deletedList).length === 0 ? (
                   <tr>
                     <td colSpan={3} className="admin-muted">
                       Kuch bhi hidden nahi hai.
                     </td>
                   </tr>
                 ) : (
-                  hiddenList.map((r) => (
+                  (filter === "hidden" ? hiddenList : deletedList).map((r) => (
                     <tr key={r.slug}>
                       <td>{r.title}</td>
                       <td className="admin-mono">{r.slug}</td>
                       <td className="admin-actions">
-                        <button type="button" className="gsh-filter" onClick={() => toggleHidden(r.slug)}>
+                        <button type="button" className="gsh-filter" onClick={() => filter === "hidden" ? toggleHidden(r.slug) : restoreDeleted(r.slug)}>
                           Restore
                         </button>
                       </td>
@@ -330,31 +355,24 @@ export function AdminPanel() {
                       >
                         View
                       </a>
-                      {r.isCustom ? (
-                        <button
-                          type="button"
-                          className="gsh-filter danger"
-                          onClick={() => {
-                            if (window.confirm(`Permanently delete "${r.title}"? This custom resource cannot be restored.`)) {
-                              removeCustom(r.slug);
-                            }
-                          }}
-                        >
-                          Delete
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          className="gsh-filter danger"
-                          onClick={() => {
-                            if (window.confirm(`Remove "${r.title}" from the public website? You can restore it later from the Hidden filter.`)) {
-                              toggleHidden(r.slug);
-                            }
-                          }}
-                        >
-                          Remove
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        className="gsh-filter"
+                        onClick={() => {
+                          if (window.confirm(`Hide "${r.title}" from the public website? You can restore it later.`)) toggleHidden(r.slug);
+                        }}
+                      >
+                        Hide
+                      </button>
+                      <button
+                        type="button"
+                        className="gsh-filter danger"
+                        onClick={() => {
+                          if (window.confirm(`Permanently delete "${r.title}" from the website? You can restore it from the Deleted filter.`)) deleteResource(r.slug);
+                        }}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
