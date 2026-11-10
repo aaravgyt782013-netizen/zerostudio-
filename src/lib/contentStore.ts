@@ -33,11 +33,16 @@ export async function getStoredContentState(): Promise<{ content: ContentFile; i
   const sql = database();
   const rows = await sql`SELECT content FROM zero_studio_site_content WHERE id = 1 LIMIT 1`;
   if (!rows.length) return { content: PUBLISHED, initialized: false };
-  const stored = rows[0].content;
-  return {
-    content: normaliseContent(typeof stored === "string" ? JSON.parse(stored) : stored),
-    initialized: true,
-  };
+  const stored = normaliseContent(typeof rows[0].content === "string" ? JSON.parse(rows[0].content) : rows[0].content);
+
+  // One-time clean-slate migration: remove the previous catalogue and admin edits.
+  // The new version marker prevents this reset from running again after fresh content is added.
+  if (stored.version < PUBLISHED.version) {
+    const fresh = await saveStoredContent(PUBLISHED);
+    return { content: fresh, initialized: true };
+  }
+
+  return { content: stored, initialized: true };
 }
 
 export async function getStoredContent(): Promise<ContentFile> {
