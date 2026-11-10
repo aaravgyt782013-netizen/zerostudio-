@@ -1,7 +1,6 @@
 // Catalog metadata for the Galaxy Setup Pro resource library.
 // Slugs mirror the public resource URLs of the original site.
 
-import { RAW_SLUGS } from "./rawSlugs";
 import { PUBLISHED, type ContentFile } from "@/lib/content";
 
 // Publication dates captured from the live blog for the newest drops.
@@ -357,7 +356,7 @@ function labelsFor(key: string, category: Category): string[] {
   return labels;
 }
 
-const rawSlugs = RAW_SLUGS;
+const rawSlugs: string[] = [];
 
 
 // Real publication dates were only recoverable for the newest posts, so the rest of
