@@ -34,7 +34,7 @@ export function Hero({ content }: { content: ContentFile }) {
           </div>
           <div className="gsh-stats">
             <div>
-              <strong>{totalResources}+</strong>
+              <strong>{totalResources}</strong>
               <span>Resources</span>
             </div>
             <div>
