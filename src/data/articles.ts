@@ -20,7 +20,7 @@ const generic = (name: string, kind: string, category: string): Article => ({
     { type: "tagline", text: `${name} — free ${kind} for Minecraft servers` },
     {
       type: "p",
-      text: `${name} is part of the Galaxy Setup Pro library: a curated free ${kind} that server owners can drop straight into a live Minecraft network. Everything listed here is shared for the community at no cost.`,
+      text: `${name} is part of the Zero Studio library: a curated free ${kind} that server owners can drop straight into a live Minecraft network. Everything listed here is shared for the community at no cost.`,
     },
     { type: "h2", text: `About ${name}` },
     {
@@ -34,7 +34,7 @@ const generic = (name: string, kind: string, category: string): Article => ({
         "Ready to install on modern Paper / Spigot servers",
         "Clean, documented configuration files",
         "Compatible with PlaceholderAPI where relevant",
-        "Free to download from Galaxy Setup Pro",
+        "Free to download from Zero Studio",
         "Easy to re-brand for your own community",
       ],
     },
