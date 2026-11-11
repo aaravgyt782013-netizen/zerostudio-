@@ -1137,3 +1137,16 @@ html.light-mode #footer .gsh-footer-col h4{color:#93c5fd}
 .zero-admin-empty strong{font-size:1rem;color:var(--text)}
 .zero-admin-empty span{max-width:440px;color:var(--muted);font-size:.85rem;line-height:1.6}
 .zero-admin-empty .gsh-btn{margin-top:.35rem}
+
+
+/* Optional resource image uploads and public gallery */
+.zero-admin-image-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.7rem;margin-top:.8rem}
+.zero-admin-image-item{display:grid;gap:.45rem;min-width:0}
+.zero-admin-image-item img{width:100%;height:100px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.zero-admin-image-item button{justify-self:start;font-size:.75rem;padding:.4rem .65rem}
+.gsh-resource-gallery{margin:1.5rem 0 2rem}
+.gsh-resource-gallery h2{margin:0 0 1rem;font-size:1.35rem}
+.gsh-resource-gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:1rem}
+.gsh-resource-gallery-grid a{display:block;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.gsh-resource-gallery-grid img{display:block;width:100%;max-height:360px;aspect-ratio:16/10;object-fit:cover;transition:transform .25s ease}
+.gsh-resource-gallery-grid a:hover img{transform:scale(1.035)}
