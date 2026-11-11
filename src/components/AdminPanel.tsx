@@ -24,6 +24,24 @@ const emptyDraft = (): CustomResource => ({
   youtubeUrl: "",
 });
 
+function isValidYoutubeVideoUrl(value: string) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase();
+    if (!["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be", "www.youtu.be"].includes(host)) return false;
+    const id = host.includes("youtu.be")
+      ? url.pathname.split("/")[1]
+      : url.pathname === "/watch"
+        ? url.searchParams.get("v")
+        : ["/embed/", "/shorts/"].some((prefix) => url.pathname.startsWith(prefix))
+          ? url.pathname.split("/")[2]
+          : null;
+    return Boolean(id && /^[a-zA-Z0-9_-]{11}$/.test(id));
+  } catch {
+    return false;
+  }
+}
+
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -104,7 +122,7 @@ export function AdminPanel() {
       flash("Title aur slug zaroori hai");
       return;
     }
-    if (!/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(draft.youtubeUrl.trim())) {
+    if (!isValidYoutubeVideoUrl(draft.youtubeUrl.trim())) {
       flash("Valid YouTube video URL zaroori hai");
       return;
     }
