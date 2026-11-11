@@ -281,6 +281,7 @@ export type Resource = {
   month: string;         // YYYY-MM
   labels: string[];
   summary?: string;      // overrides the generated card excerpt
+  youtubeUrl?: string;   // optional YouTube showcase video
   isCustom?: boolean;    // added through the admin panel
 };
 
@@ -416,6 +417,7 @@ function withContent(content: ContentFile): Resource[] {
       labels: patch.labels?.length ? patch.labels : r.labels,
       url: patch.url ?? r.url,
       date: patch.date ?? r.date,
+      youtubeUrl: patch.youtubeUrl ?? r.youtubeUrl,
     };
   });
 
@@ -429,6 +431,7 @@ function withContent(content: ContentFile): Resource[] {
     month: item.date.slice(0, 7),
     labels: item.labels.length ? item.labels : [item.category],
     summary: item.summary,
+    youtubeUrl: item.youtubeUrl,
     isCustom: true,
   }));
 
