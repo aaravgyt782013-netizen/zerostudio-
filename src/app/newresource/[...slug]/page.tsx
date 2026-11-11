@@ -25,7 +25,7 @@ export async function generateMetadata({
     description: `Download ${resource.title} — free Minecraft ${resource.category} for Paper, Spigot and Purpur servers.`,
     openGraph: {
       title: resource.title,
-      description: `Free Minecraft ${resource.category} download from Galaxy Setup Pro.`,
+      description: `Free Minecraft ${resource.category} download from Zero Studio.`,
       type: "article",
     },
   };
@@ -114,8 +114,8 @@ export default async function ResourcePage({
               </div>
 
               <p className="tr-caption">
-                Minecraft is a trademark of Mojang Studios. GalaxySetupPro is an
-                independent Minecraft resource showcase and is not affiliated with
+                Minecraft is a trademark of Mojang Studios. Zero Studio is an
+                independent Minecraft resource platform and is not affiliated with
                 Mojang or Microsoft.
               </p>
             </div>
