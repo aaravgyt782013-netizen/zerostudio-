@@ -282,6 +282,7 @@ export type Resource = {
   labels: string[];
   summary?: string;      // overrides the generated card excerpt
   youtubeUrl?: string;   // optional YouTube showcase video
+  images?: string[];     // optional uploaded resource gallery
   isCustom?: boolean;    // added through the admin panel
 };
 
@@ -432,6 +433,7 @@ function withContent(content: ContentFile): Resource[] {
     labels: item.labels.length ? item.labels : [item.category],
     summary: item.summary,
     youtubeUrl: item.youtubeUrl,
+    images: item.images,
     isCustom: true,
   }));
 
