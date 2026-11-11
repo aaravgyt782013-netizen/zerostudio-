@@ -36,6 +36,7 @@ export type CustomResource = {
   labels: string[];
   summary?: string;
   youtubeUrl?: string;
+  images?: string[];
 };
 
 export type ContentFile = {
@@ -128,6 +129,7 @@ export function normaliseContent(raw: unknown): ContentFile {
       labels: Array.isArray(item.labels) ? item.labels.filter((l) => typeof l === "string" && l.trim()) : [],
       summary: typeof item.summary === "string" ? item.summary : undefined,
       youtubeUrl: typeof item.youtubeUrl === "string" ? item.youtubeUrl.trim() : undefined,
+      images: Array.isArray(item.images) ? item.images.filter((src) => typeof src === "string" && src.startsWith("data:image/")).slice(0, 5) : [],
     }))
     .filter((item) => item.slug && item.title);
 
