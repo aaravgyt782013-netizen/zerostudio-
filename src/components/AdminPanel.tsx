@@ -122,7 +122,7 @@ export function AdminPanel() {
       flash("Title aur slug zaroori hai");
       return;
     }
-    if (!isValidYoutubeVideoUrl(draft.youtubeUrl.trim())) {
+    if (!isValidYoutubeVideoUrl((draft.youtubeUrl ?? "").trim())) {
       flash("Valid YouTube video URL zaroori hai");
       return;
     }
