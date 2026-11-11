@@ -122,8 +122,8 @@ export function AdminPanel() {
       flash("Title aur slug zaroori hai");
       return;
     }
-    if (!isValidYoutubeVideoUrl((draft.youtubeUrl ?? "").trim())) {
-      flash("Valid YouTube video URL zaroori hai");
+    if ((draft.youtubeUrl ?? "").trim() && !isValidYoutubeVideoUrl((draft.youtubeUrl ?? "").trim())) {
+      flash("Please enter a valid YouTube video URL, or leave it empty");
       return;
     }
     const slug = cleanResourceSlug(draft.slug.trim());
@@ -484,11 +484,10 @@ export function AdminPanel() {
           </label>
 
           <label className="admin-field">
-            <span>YouTube video URL (required)</span>
+            <span>YouTube video URL (optional)</span>
             <input
               className="admin-input"
               type="url"
-              required
               value={draft.youtubeUrl ?? ""}
               onChange={(e) => setDraft((d) => ({ ...d, youtubeUrl: e.target.value }))}
               placeholder="https://www.youtube.com/watch?v=…"
