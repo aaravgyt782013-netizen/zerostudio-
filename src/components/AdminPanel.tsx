@@ -497,7 +497,7 @@ export function AdminPanel() {
                   e.target.value = "";
                   return;
                 }
-                if (selected.some((file) => !file.type.startsWith("image/") || file.size > 1024 * 1024)) {
+                if (selected.some((file) => !file.type.startsWith("image/") || file.size > 512 * 1024)) {
                   flash("Use image files up to 1 MB each");
                   e.target.value = "";
                   return;
@@ -517,7 +517,7 @@ export function AdminPanel() {
                 e.target.value = "";
               }}
             />
-            <small className="admin-muted">Attach up to 5 images (PNG, JPG, WEBP or GIF; max 1 MB each). They will appear in the resource gallery.</small>
+            <small className="admin-muted">Attach up to 5 images (PNG, JPG, WEBP or GIF; max 512 KB each). They will appear in the resource gallery.</small>
             {draft.images?.length ? (
               <div className="zero-admin-image-list">
                 {draft.images.map((src, index) => (
