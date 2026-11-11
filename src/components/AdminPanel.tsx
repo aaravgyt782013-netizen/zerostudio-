@@ -484,6 +484,53 @@ export function AdminPanel() {
           </label>
 
           <label className="admin-field">
+            <span>Related images (optional)</span>
+            <input
+              className="admin-input"
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif"
+              multiple
+              onChange={async (e) => {
+                const selected = Array.from(e.target.files ?? []);
+                if (selected.length + (draft.images?.length ?? 0) > 5) {
+                  flash("You can attach up to 5 images");
+                  e.target.value = "";
+                  return;
+                }
+                if (selected.some((file) => !file.type.startsWith("image/") || file.size > 1024 * 1024)) {
+                  flash("Use image files up to 1 MB each");
+                  e.target.value = "";
+                  return;
+                }
+                const readImage = (file: File) => new Promise<string>((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.onload = () => typeof reader.result === "string" ? resolve(reader.result) : reject(new Error("Image read failed"));
+                  reader.onerror = () => reject(new Error("Image read failed"));
+                  reader.readAsDataURL(file);
+                });
+                try {
+                  const images = await Promise.all(selected.map(readImage));
+                  setDraft((d) => ({ ...d, images: [...(d.images ?? []), ...images] }));
+                } catch {
+                  flash("Could not read selected image");
+                }
+                e.target.value = "";
+              }}
+            />
+            <small className="admin-muted">Attach up to 5 images (PNG, JPG, WEBP or GIF; max 1 MB each). They will appear in the resource gallery.</small>
+            {draft.images?.length ? (
+              <div className="zero-admin-image-list">
+                {draft.images.map((src, index) => (
+                  <div className="zero-admin-image-item" key={index}>
+                    <img src={src} alt={"Resource preview " + (index + 1)} />
+                    <button type="button" className="gsh-filter danger" onClick={() => setDraft((d) => ({ ...d, images: (d.images ?? []).filter((_, i) => i !== index) }))}>Remove</button>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </label>
+
+          <label className="admin-field">
             <span>YouTube video URL (optional)</span>
             <input
               className="admin-input"
