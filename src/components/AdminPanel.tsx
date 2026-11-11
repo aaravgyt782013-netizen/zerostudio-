@@ -21,6 +21,7 @@ const emptyDraft = (): CustomResource => ({
   url: "",
   labels: ["plugin", "free download"],
   summary: "",
+  youtubeUrl: "",
 });
 
 function slugify(value: string) {
@@ -103,6 +104,10 @@ export function AdminPanel() {
       flash("Title aur slug zaroori hai");
       return;
     }
+    if (!/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(draft.youtubeUrl.trim())) {
+      flash("Valid YouTube video URL zaroori hai");
+      return;
+    }
     const slug = cleanResourceSlug(draft.slug.trim());
     const item: CustomResource = {
       ...draft,
@@ -110,6 +115,7 @@ export function AdminPanel() {
       title: draft.title.trim(),
       labels: draft.labels.length ? draft.labels : [draft.category],
       summary: draft.summary?.trim() || undefined,
+      youtubeUrl: draft.youtubeUrl.trim(),
     };
     const isUpdate = content.custom.some((c) => c.slug === slug);
     if (!isUpdate && resources.some((r) => r.slug === slug)) {
@@ -460,6 +466,19 @@ export function AdminPanel() {
           </label>
 
           <label className="admin-field">
+            <span>YouTube video URL (required)</span>
+            <input
+              className="admin-input"
+              type="url"
+              required
+              value={draft.youtubeUrl ?? ""}
+              onChange={(e) => setDraft((d) => ({ ...d, youtubeUrl: e.target.value }))}
+              placeholder="https://www.youtube.com/watch?v=…"
+            />
+            <small className="admin-muted">This video will appear embedded on the resource description page.</small>
+          </label>
+
+          <label className="admin-field">
             <span>Card excerpt (optional)</span>
             <textarea
               className="admin-input admin-textarea"
@@ -608,6 +627,11 @@ export function AdminPanel() {
             </label>
 
             <label className="admin-field">
+              <span>YouTube video URL (optional)</span>
+              <input className="admin-input" type="url" defaultValue={editing.youtubeUrl ?? ""} id="edit-youtube" placeholder="https://youtu.be/…" />
+            </label>
+
+            <label className="admin-field">
               <span>Date</span>
               <input className="admin-input" type="date" defaultValue={editing.date} id="edit-date" />
             </label>
@@ -628,6 +652,7 @@ export function AdminPanel() {
                     title: read("edit-title").trim(),
                     url: read("edit-url").trim(),
                     date: read("edit-date"),
+                    youtubeUrl: read("edit-youtube").trim(),
                     labels: read("edit-labels")
                       .split(",")
                       .map((l) => l.trim())
