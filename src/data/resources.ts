@@ -1,4 +1,4 @@
-// Catalog metadata for the Galaxy Setup Pro resource library.
+// Catalog metadata for the Zero Studio resource library.
 // Slugs mirror the public resource URLs of the original site.
 
 import { PUBLISHED, type ContentFile } from "@/lib/content";
@@ -518,7 +518,7 @@ export function coverStyle(resource: Resource): { backgroundImage: string } {
   <rect width="800" height="400" fill="url(#g)"/>
   <rect width="800" height="400" fill="url(#p)"/>
   <g fill="${ink}" font-family="Arial Narrow,Arial,sans-serif" font-weight="800" text-anchor="middle">
-    <text x="400" y="196" font-size="96" letter-spacing="6">GSP</text>
+    <text x="400" y="196" font-size="96" letter-spacing="6">ZS</text>
     <text x="400" y="248" font-size="24" letter-spacing="10">${resource.category.toUpperCase()}</text>
   </g>
   <rect x="0" y="380" width="800" height="20" fill="rgba(0,0,0,.45)"/>
