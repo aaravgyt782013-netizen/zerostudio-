@@ -432,6 +432,8 @@ blockquote{border-left:6px solid var(--accent);background:var(--surface2);paddin
 .gsh-footer-copy{color:var(--muted);font-size:.85rem}
 .gsh-footer-copy b{color:var(--text)}
 .gsh-footer-tags{display:flex;flex-wrap:wrap;gap:6px}
+.gsh-footer-credit{display:flex;align-items:center;justify-content:center;gap:.45rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-family:var(--head);font-size:.82rem;font-weight:700;letter-spacing:.04em}
+.gsh-footer-heart{color:#ef3340;font-family:monospace;font-size:1.35rem;line-height:1;text-shadow:1px 1px 0 #7d101b;transform:translateY(-1px)}
 .gsh-footer-tag{
   font-family:var(--head);font-weight:700;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;
   color:var(--text);border:2px solid var(--line);padding:.1rem .6rem;
