@@ -114,6 +114,18 @@ export default async function ResourcePage({
             </div>
 
             <div className="post-body">
+              {resource.images?.length ? (
+                <section className="gsh-resource-gallery" aria-label="Resource images">
+                  <h2>Resource gallery</h2>
+                  <div className="gsh-resource-gallery-grid">
+                    {resource.images.map((src, index) => (
+                      <a key={index} href={src} target="_blank" rel="noopener noreferrer">
+                        <img src={src} alt={resource.title + " preview " + (index + 1)} loading="lazy" />
+                      </a>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
               {videoUrl ? (
                 <section className="gsh-resource-video" aria-label="Resource showcase video">
                   <h2>Watch the showcase</h2>
