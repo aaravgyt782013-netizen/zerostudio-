@@ -65,6 +65,11 @@ export function Footer() {
             ))}
           </div>
         </div>
+
+        <div className="gsh-footer-credit" aria-label="Made by Aarav">
+          <span className="gsh-footer-heart" aria-hidden="true">♥</span>
+          <span>Made By Aarav</span>
+        </div>
       </div>
     </footer>
   );
