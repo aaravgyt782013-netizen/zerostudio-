@@ -133,7 +133,7 @@ export function AdminPanel() {
       title: draft.title.trim(),
       labels: draft.labels.length ? draft.labels : [draft.category],
       summary: draft.summary?.trim() || undefined,
-      youtubeUrl: draft.youtubeUrl.trim(),
+      youtubeUrl: (draft.youtubeUrl ?? "").trim(),
     };
     const isUpdate = content.custom.some((c) => c.slug === slug);
     if (!isUpdate && resources.some((r) => r.slug === slug)) {
