@@ -24,6 +24,7 @@ export type ResourcePatch = {
   labels?: string[];
   url?: string;
   date?: string;
+  youtubeUrl?: string;
 };
 
 export type CustomResource = {
@@ -34,6 +35,7 @@ export type CustomResource = {
   url: string;
   labels: string[];
   summary?: string;
+  youtubeUrl?: string;
 };
 
 export type ContentFile = {
@@ -111,6 +113,7 @@ export function normaliseContent(raw: unknown): ContentFile {
     if (Array.isArray(value.labels)) patch.labels = value.labels.filter((l) => typeof l === "string" && l.trim());
     if (typeof value.url === "string" && value.url.trim()) patch.url = value.url.trim();
     if (typeof value.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value.date)) patch.date = value.date;
+    if (typeof value.youtubeUrl === "string" && value.youtubeUrl.trim()) patch.youtubeUrl = value.youtubeUrl.trim();
     if (Object.keys(patch).length) patches[key] = patch;
   }
 
@@ -124,6 +127,7 @@ export function normaliseContent(raw: unknown): ContentFile {
       url: String(item.url ?? "").trim(),
       labels: Array.isArray(item.labels) ? item.labels.filter((l) => typeof l === "string" && l.trim()) : [],
       summary: typeof item.summary === "string" ? item.summary : undefined,
+      youtubeUrl: typeof item.youtubeUrl === "string" ? item.youtubeUrl.trim() : undefined,
     }))
     .filter((item) => item.slug && item.title);
 
